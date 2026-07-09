@@ -3,53 +3,35 @@
 **22+ 组件 · WebGL 着色器背景 · 3D 倾斜交互 · 零依赖 · 纯 HTML/CSS/JS**
 
 <p align="center">
-  <img src="screenshots/01-full-dashboard.png" alt="完整仪表板" width="800">
-</p>
-
----
-
-## 立即购买
-
-<p align="center">
-  <a href="https://ifdian.net/a/markdownpaste"><b>💰 爱发电购买 → ¥29（个人商用许可）</b></a>
+  <a href="https://ifdian.net/a/markdownpaste"><b>💰 立即购买 → ¥29（个人商用许可）</b></a>
 </p>
 
 ---
 
 ## 截图预览
 
-### 侧边栏 — 导航 + 文件树 + 折叠面板
+### 顶部区域 — 搜索栏 + 统计卡片 + 侧边栏
 
 <p align="center">
-  <img src="screenshots/02-sidebar.png" alt="侧边栏" width="700">
+  <img src="screenshots/01-header-stats.png" alt="顶栏与统计卡片" width="800">
 </p>
 
-### 统计卡片 + Neo-Glass Card + Glass Card
+### 卡片组件 — Neo-Glass Card + Glass Card + Glass Pill Button
 
 <p align="center">
-  <img src="screenshots/03-stat-cards.png" alt="统计卡片" width="700">
+  <img src="screenshots/02-cards-pillbtn.png" alt="卡片组件与胶囊按钮" width="800">
 </p>
 
+### 数据表格 + Quick Settings 控制面板
+
 <p align="center">
-  <img src="screenshots/05-neo-card-glass-card.png" alt="Neo-Glass Card 与 Glass Card" width="700">
+  <img src="screenshots/03-table-settings.png" alt="表格与控制面板" width="800">
 </p>
 
-### Glass Pill Button — 玻璃胶囊按钮
+### 底部区域 — 消息列表 + 轮播 + 标签 + 徽章
 
 <p align="center">
-  <img src="screenshots/04-glass-pill-btn.png" alt="玻璃胶囊按钮" width="700">
-</p>
-
-### 表格 + 分页器 + Quick Settings 控制面板
-
-<p align="center">
-  <img src="screenshots/06-table-settings.png" alt="表格与控制面板" width="700">
-</p>
-
-### 消息列表 + 轮播 + 标签 + 徽章
-
-<p align="center">
-  <img src="screenshots/07-list-carousel-tags.png" alt="列表与标签" width="700">
+  <img src="screenshots/04-list-bottom.png" alt="列表轮播标签" width="800">
 </p>
 
 ---
@@ -57,7 +39,7 @@
 ## 组件一览
 
 ### 🎨 核心表面
-`glass-base` 毛玻璃面板 · `glass-ball` 3D 玻璃球 — 均含遮罩复合描边环 + 光泽叠加伪元素
+`glass-base` 毛玻璃面板 · `glass-ball` 3D 玻璃球 — 均含遮罩复合描边环 + 光泽叠加
 
 ### 🔘 按钮
 **玻璃胶囊按钮**（Romanesco 字体 + 3D 透视倾斜）· **玻璃按钮**（主色 / 危险 / 文字）
@@ -80,24 +62,13 @@
 
 | 特性 | 说明 |
 |------|------|
-| **9 层新拟态阴影** | 2 层外层 + 7 层内层，精确定向光源（左上→右下） |
+| **9 层新拟态阴影** | 2 层外层 + 7 层内层，精确定向光源 |
 | **遮罩复合描边环** | `mask-composite: exclude` 跟随任意圆角 |
 | **3D 透视倾斜** | CSS 自定义属性驱动，弹簧缓动回弹 |
 | **玻璃球悬停物理** | `scale(1.15)` + 11 层阴影增强 |
-| **水纹焦散纹理** | SVG `feTurbulence` 数据 URI，`soft-light` 混合 |
+| **水纹焦散纹理** | SVG `feTurbulence` 数据 URI |
 | **WebGL 流动波浪** | 全屏着色器背景，鼠标交互，天蓝色调 |
 | **零依赖** | 无框架、无构建工具，浏览器直接打开 |
-
----
-
-## 技术规格
-
-| 项目 | 说明 |
-|------|------|
-| 语言 | HTML + CSS + JavaScript（原生） |
-| 依赖 | 零（仅 Google Fonts CDN） |
-| 浏览器 | Chrome / Edge / Safari / Firefox |
-| 文件大小 | ~88KB（自包含，包含所有组件） |
 
 ---
 
