@@ -53,6 +53,9 @@
   <img src="screenshots/recent-activity.png" alt="Recent Activity" width="260">
   <img src="screenshots/highlights-carousel.png" alt="Highlights Carousel" width="260">
 </p>
+<p align="center">
+  <img src="screenshots/float-button.png" alt="Float Button" width="260">
+</p>
 
 ---
 
