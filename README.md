@@ -36,6 +36,19 @@
 
 ---
 
+## 独立组件预览
+
+<p align="center">
+  <img src="screenshots/glass-pill-button.png" alt="Glass Pill Button" width="400">
+  <img src="screenshots/toggle-switch.png" alt="Toggle Switch" width="400">
+</p>
+<p align="center">
+  <img src="screenshots/segmented-control.png" alt="Segmented Control" width="400">
+  <img src="screenshots/rate-stars.png" alt="Rate Stars" width="400">
+</p>
+
+---
+
 ## 组件一览
 
 ### 🎨 核心表面
