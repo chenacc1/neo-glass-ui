@@ -39,12 +39,19 @@
 ## 独立组件预览
 
 <p align="center">
-  <img src="screenshots/glass-pill-button.png" alt="Glass Pill Button" width="400">
-  <img src="screenshots/toggle-switch.png" alt="Toggle Switch" width="400">
+  <img src="screenshots/glass-pill-button.png" alt="Glass Pill Button" width="260">
+  <img src="screenshots/toggle-switch.png" alt="Toggle Switch" width="260">
+  <img src="screenshots/segmented-control.png" alt="Segmented Control" width="260">
 </p>
 <p align="center">
-  <img src="screenshots/segmented-control.png" alt="Segmented Control" width="400">
-  <img src="screenshots/rate-stars.png" alt="Rate Stars" width="400">
+  <img src="screenshots/rate-stars.png" alt="Rate Stars" width="260">
+  <img src="screenshots/glass-card.png" alt="Glass Card" width="260">
+  <img src="screenshots/slider.png" alt="Slider" width="260">
+</p>
+<p align="center">
+  <img src="screenshots/messages-list.png" alt="Messages List" width="260">
+  <img src="screenshots/recent-activity.png" alt="Recent Activity" width="260">
+  <img src="screenshots/highlights-carousel.png" alt="Highlights Carousel" width="260">
 </p>
 
 ---
