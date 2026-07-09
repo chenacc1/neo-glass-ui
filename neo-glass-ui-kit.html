@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Romanesco&display=swap" rel="stylesheet">
+<title>Neo-Glass UI Kit — Complete Component Library</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+   Neo-Glass UI Kit — All Components in Group 5 Glass Style
+   Organized by 6 categories with full interactions
+   ═══════════════════════════════════════════════════════════════════ */
+
+@keyframes liquid-flow {
+  0% { background-position: 0 0, 0% 0; } 50% { background-position: 0 0, 100% 0; } 100% { background-position: 0 0, 0% 0; }
+}
+@keyframes shimmer {
+  0% { background-position: 100% 0; } 100% { background-position: -100% 0; }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes dotBounce {
+  0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); }
+}
+@keyframes alertIn {
+  from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); }
+}
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ══════════ DESIGN TOKENS ══════════ */
+:root {
+  --caustic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.008 0.01' numOctaves='4' seed='5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.827  0 0 0 0 0.965  0 0 0 0 1.0  0.35 0 0 0 0'/%3E%3CfeGaussianBlur stdDeviation='3'/%3E%3C/filter%3E%3Crect width='600' height='400' filter='url(%23f)'/%3E%3C/svg%3E");
+  --glass-fill: rgba(135,150,165,0.35); --glass-solid: rgba(125,164,184,0.7);
+  --border-w: rgba(255,255,255,0.8); --border-s: rgba(255,255,255,0.5);
+  --text: #22222C; --text-dim: rgba(26,26,46,0.55);
+  --primary: rgba(0,120,220,0.45); --success: rgba(34,197,94,0.4);
+  --danger: rgba(239,68,68,0.4); --warning: rgba(249,115,22,0.4); --info: rgba(6,182,212,0.35);
+  --stroke: linear-gradient(135deg, #FFF 0%, #D0D0D0 50%, #FFF 100%);
+  --shine: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.06) 40%, transparent 55%, rgba(0,0,0,0.04) 100%);
+  --shadow-9:
+    4px 4px 10px rgba(140,215,255,0.25), 10px 10px 10px rgba(0,0,0,0.25),
+    inset 4px 4px 4px rgba(255,255,255,0.9), inset 10px 10px 20px rgba(125,143,158,0.25),
+    inset -5px -5px 5px #FFF, inset -10px -10px 30px rgba(125,143,158,0.7),
+    inset -15px -15px 10px rgba(255,255,255,0.3), inset 4px 4px 5px rgba(255,255,255,0.8),
+    inset 15px 15px 10px rgba(255,255,255,0.2), inset 15px 15px 10px rgba(0,0,0,0.35);
+  --shadow-figma:
+    15px 15px 9px rgba(0,0,0,0.2), 4px 4px 5px rgba(255,255,255,0.2), 10px 10px 10px rgba(178,178,178,0.3),
+    inset 2px 2px 10px #A0A0A0, inset -2px -2px 4px #20333D,
+    inset 5px 5px 3px rgba(125,164,184,0.7), inset -5px -5px 3px rgba(125,164,184,0.7),
+    inset -10px -10px 10px #E5EBEE, inset -20px -20px 26px rgba(254,254,254,0.32),
+    inset 20px 20px 25px rgba(155,143,143,0.32), inset 10px 10px 10px #DEDEDE;
+  --shadow-concave:
+    inset 4px 4px 8px rgba(0,0,0,0.12), inset -2px -2px 4px rgba(255,255,255,0.5),
+    inset -6px -6px 12px rgba(125,143,158,0.25);
+  --shadow-glass-ball:
+    1px 1px 3px #A0A0A0, 3px 3px 3px rgba(0,0,0,0.2), 2px 2px 1.5px rgba(178,178,178,0.5),
+    inset -1px -1px 2px #20333D, inset 2px 2px 1.5px rgba(125,164,184,0.7),
+    inset -2px -2px 1.5px rgba(125,164,184,0.7), inset -4px -4px 4px #E5EBEE,
+    inset -6px -6px 8px rgba(254,254,254,0.32), inset 6px 6px 8px rgba(155,143,143,0.32),
+    inset 3px 3px 3px #DEDEDE, inset 1.5px 1.5px 2px rgba(255,255,255,0.2);
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: #fff; min-height: 100vh; padding: 32px 20px 80px;
+}
+
+/* ══════════ LAYOUT ══════════ */
+.page { max-width: 1200px; margin: 0 auto; }
+.page h1 { text-align: center; font-size: 28px; margin-bottom: 4px; }
+.page .subtitle { text-align: center; color: rgba(255,255,255,0.4); font-size: 13px; margin-bottom: 8px; }
+
+/* Category */
+.cat { margin-bottom: 48px; }
+.cat-title {
+  font-size: 18px; font-weight: 700; margin-bottom: 6px; padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 8px;
+}
+.cat-desc { font-size: 12px; color: rgba(255,255,255,0.35); margin-bottom: 16px; }
+.cat-section { margin-bottom: 28px; }
+.cat-label {
+  font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 10px;
+  font-weight: 500; display: flex; align-items: center; gap: 6px;
+}
+.cat-label::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+.demo-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 6px; }
+.demo-col { display: flex; flex-direction: column; gap: 10px; }
+.demo-grid { display: grid; gap: 10px; }
+.comp-name { font-size: 10px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.4px; text-align: center; margin-top: 4px; }
+.comp-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+
+/* ══════════ SHARED GLASS UTILITIES ══════════ */
+.glass-base {
+  background-color: var(--glass-fill); background-image: var(--shine);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 2px solid var(--border-w); position: relative;
+}
+.glass-base::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 2px;
+  background: var(--stroke);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  mix-blend-mode: multiply; opacity: 0.4; pointer-events: none; z-index: 2;
+}
+.glass-base::after {
+  content: ''; position: absolute; inset: 2px; border-radius: calc(inherit - 2px);
+  background: var(--shine); mix-blend-mode: overlay; pointer-events: none; z-index: 1;
+}
+
+.glass-ball {
+  background-color: var(--glass-solid);
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 50%, rgba(0,0,0,0.05) 100%);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-glass-ball); position: relative;
+}
+.glass-ball::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+  background: var(--stroke);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  mix-blend-mode: multiply; opacity: 0.3; pointer-events: none; z-index: 2;
+}
+.glass-ball::after {
+  content: ''; position: absolute; inset: 2px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.35) 0%, transparent 55%),
+              linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%, rgba(0,0,0,0.04) 100%);
+  mix-blend-mode: overlay; pointer-events: none; z-index: 1;
+}
+
+/* ══════════ 1. GENERAL & LAYOUT ══════════ */
+
+/* ── Button ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+  padding: 9px 20px; border-radius: 11px; font-size: 13px; font-weight: 500;
+  color: var(--text); border: 2px solid var(--border-w); position: relative; user-select: none;
+  background-color: var(--glass-fill); background-image: var(--shine);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-9); transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px;
+  background: var(--stroke);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  mix-blend-mode: multiply; opacity: 0.35; pointer-events: none;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 3px 6px 14px rgba(0,0,0,0.2), var(--shadow-9); }
+.btn:active { transform: translateY(0) scale(0.97); }
+.btn-primary { background-color: var(--primary); color: #fff; }
+.btn-danger { background-color: var(--danger); color: #fff; }
+.btn-success { background-color: var(--success); color: #fff; }
+.btn-warning { background-color: var(--warning); color: #fff; }
+.btn-text { background: none; border: none; box-shadow: none; padding: 7px 14px; color: rgba(255,255,255,0.65); }
+.btn-text::before { display: none; }
+.btn-text:hover { background: rgba(255,255,255,0.06); transform: none; }
+.btn-sm { padding: 4px 11px; font-size: 11px; border-radius: 8px; }
+.btn-lg { padding: 13px 28px; font-size: 15px; border-radius: 14px; }
+.btn:disabled { opacity: 0.4; pointer-events: none; }
+.btn-icon { width: 38px; height: 38px; padding: 0; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+
+/* ── Icon ── */
+.icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: var(--shadow-9); }
+.icon-circle { border-radius: 50%; }
+
+/* ── Typography ── */
+.typo-h1 { font-size: 26px; font-weight: 700; color: #fff; }
+.typo-h2 { font-size: 20px; font-weight: 600; color: #fff; }
+.typo-h3 { font-size: 16px; font-weight: 600; color: #fff; }
+.typo-body { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5; }
+.typo-caption { font-size: 11px; color: rgba(255,255,255,0.4); }
+.typo-mark { background: rgba(255,200,50,0.2); padding: 0 3px; border-radius: 3px; color: #fff; }
+.typo-code { background: rgba(0,0,0,0.2); padding: 1px 5px; border-radius: 4px; font-family: 'Fira Code', monospace; font-size: 12px; }
+.typo-kbd { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; padding: 1px 6px; font-size: 11px; font-family: monospace; }
+.typo-link { color: rgba(160,210,240,0.9); text-decoration: none; cursor: pointer; }
+.typo-link:hover { text-decoration: underline; }
+.typo-quote { border-left: 3px solid rgba(255,255,255,0.25); padding: 8px 14px; font-style: italic; color: rgba(255,255,255,0.55); }
+
+/* ── Divider ── */
+.divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); }
+.divider-v { width: 1px; min-height: 24px; background: linear-gradient(180deg, transparent, rgba(255,255,255,0.2), transparent); }
+.divider-text { display: flex; align-items: center; gap: 12px; font-size: 12px; color: rgba(255,255,255,0.35); }
+.divider-text::before, .divider-text::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.12); }
+
+/* ── Space ── */
+.space-xs { gap: 4px; } .space-sm { gap: 8px; } .space-md { gap: 16px; } .space-lg { gap: 24px; } .space-xl { gap: 40px; }
+
+/* ── Grid ── */
+.grid { display: grid; gap: 12px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-auto { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+.grid-item { border-radius: 12px; padding: 16px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); }
+
+/* ── Layout ── */
+.layout { display: flex; min-height: 240px; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-9); border: 2px solid var(--border-w); }
+.layout::before { content: ''; position: absolute; inset: 0; border-radius: 16px; padding: 2px; background: var(--stroke); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; mix-blend-mode: multiply; opacity: 0.4; pointer-events: none; z-index: 99; }
+.layout-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 18px; background: rgba(0,0,0,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); }
+.layout-sider { width: 180px; padding: 10px 8px; background: rgba(0,0,0,0.06); display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+.layout-sider-item { padding: 7px 12px; border-radius: 9px; font-size: 12px; cursor: pointer; color: var(--text-dim); }
+.layout-sider-item:hover { background: rgba(255,255,255,0.05); color: #fff; }
+.layout-sider-item.active { background: rgba(0,120,220,0.18); color: #fff; font-weight: 500; }
+.layout-content { flex: 1; padding: 14px 18px; display: flex; flex-direction: column; gap: 10px; }
+.layout-footer { padding: 8px 18px; background: rgba(0,0,0,0.04); border-top: 1px solid rgba(255,255,255,0.06); font-size: 11px; color: rgba(255,255,255,0.3); text-align: center; }
+
+/* ══════════ 2. NAVIGATION ══════════ */
+
+/* ── Menu ── */
+.menu { width: 200px; border-radius: 14px; padding: 6px; box-shadow: var(--shadow-9); }
+.menu-item { display: flex; align-items: center; gap: 9px; padding: 9px 13px; border-radius: 10px; font-size: 13px; color: var(--text); cursor: pointer; transition: background 0.12s; position: relative; z-index: 1; }
+.menu-item:hover { background: rgba(255,255,255,0.07); }
+.menu-item.active { background: rgba(0,120,220,0.18); font-weight: 500; color: #fff; }
+
+/* ── Breadcrumb ── */
+.breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+.breadcrumb span { color: var(--text-dim); }
+.breadcrumb span.active { color: #fff; font-weight: 500; }
+.breadcrumb .sep { opacity: 0.25; font-size: 10px; }
+
+/* ── Pagination ── */
+.pagination { display: flex; gap: 3px; }
+.page-item {
+  position: relative; width: 34px; height: 34px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer;
+  color: var(--text-dim); user-select: none; transition: all 0.12s; border: 1px solid transparent;
+}
+.page-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+.page-item.active { background: rgba(0,120,220,0.2); color: #fff; font-weight: 600; border-color: rgba(255,255,255,0.2); }
+.page-item.disabled { opacity: 0.3; pointer-events: none; }
+
+/* ── Steps ── */
+.steps { display: flex; gap: 32px; }
+.step { display: flex; flex-direction: column; align-items: center; gap: 5px; position: relative; }
+.step:not(:last-child)::after { content: ''; position: absolute; top: 14px; left: 38px; width: 32px; height: 1px; background: rgba(255,255,255,0.12); }
+.step-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; background: rgba(255,255,255,0.06); color: var(--text-dim); }
+.step.active .step-num { background: var(--primary); color: #fff; }
+.step.done .step-num { background: var(--success); color: #fff; }
+.step-label { font-size: 11px; color: var(--text-dim); }
+
+/* ── Dropdown ── */
+.dropdown { position: relative; display: inline-block; }
+.dropdown-menu {
+  position: absolute; top: 100%; left: 0; z-index: 50; min-width: 160px;
+  border-radius: 12px; padding: 6px; margin-top: 6px; display: none;
+  background-color: rgba(135,150,165,0.6); backdrop-filter: blur(24px);
+  border: 2px solid var(--border-w); box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+}
+.dropdown.open .dropdown-menu { display: block; }
+.dropdown-item { padding: 8px 12px; border-radius: 8px; font-size: 13px; color: var(--text); cursor: pointer; position: relative; z-index: 1; }
+.dropdown-item:hover { background: rgba(255,255,255,0.1); }
+
+/* ── Tabs ── */
+.tabs { display: flex; gap: 2px; border-radius: 12px; padding: 4px; box-shadow: none; }
+.tab { padding: 7px 16px; border-radius: 10px; font-size: 13px; cursor: pointer; color: var(--text-dim); transition: all 0.12s; position: relative; z-index: 1; }
+.tab:hover { color: var(--text); }
+.tab.active { background: rgba(255,255,255,0.1); color: #fff; font-weight: 500; }
+
+/* ── Anchor ── */
+.anchor { display: flex; flex-direction: column; gap: 2px; padding: 4px 0; }
+.anchor-item { padding: 5px 8px 5px 12px; font-size: 12px; color: var(--text-dim); cursor: pointer; border-left: 2px solid transparent; transition: all 0.12s; }
+.anchor-item:hover { color: #fff; }
+.anchor-item.active { color: #fff; border-left-color: rgba(100,180,240,0.8); font-weight: 500; }
+
+/* ── Affix ── */
+.affix-demo { position: sticky; top: 20px; }
+
+/* ══════════ 3. DATA ENTRY ══════════ */
+
+/* ── Input ── */
+.input-wrap {
+  display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px; border-radius: 11px; width: 220px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.1), inset 2px 2px 2px rgba(255,255,255,0.5), inset -3px -3px 8px rgba(125,143,158,0.35);
+}
+.input-wrap input { flex: 1; border: none; background: transparent; outline: none; font-size: 13px; color: var(--text); font-family: inherit; }
+.input-wrap input::placeholder { color: rgba(34,34,44,0.3); }
+.input-wrap:focus-within { border-color: rgba(255,255,255,0.85); box-shadow: 0 0 10px rgba(211,246,255,0.2), inset 2px 2px 2px rgba(255,255,255,0.6), inset -3px -3px 8px rgba(125,143,158,0.4); }
+.input-wrap .prefix, .input-wrap .suffix { font-size: 15px; opacity: 0.4; }
+.input-wrap.input-error { border-color: rgba(239,68,68,0.5) !important; }
+.input-wrap.input-ok { border-color: rgba(34,197,94,0.5) !important; }
+
+/* ── Textarea ── */
+.textarea {
+  width: 260px; min-height: 70px; padding: 10px 14px; border-radius: 12px; resize: vertical;
+  font-size: 13px; color: var(--text); font-family: inherit; outline: none; border: 2px solid var(--border-s);
+  background-color: var(--glass-fill); background-image: var(--shine);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 2px 2px 2px rgba(255,255,255,0.5), inset -3px -3px 8px rgba(125,143,158,0.35);
+}
+.textarea::placeholder { color: rgba(34,34,44,0.3); }
+.textarea:focus { border-color: rgba(255,255,255,0.8); }
+
+/* ── InputNumber ── */
+.input-number { display: flex; border-radius: 11px; overflow: hidden; box-shadow: 2px 2px 6px rgba(0,0,0,0.1); border: 2px solid var(--border-s); }
+.input-number button { width: 32px; height: 34px; border: none; cursor: pointer; font-size: 14px; color: var(--text); background: transparent; }
+.input-number button:hover { background: rgba(255,255,255,0.06); }
+.input-number input { width: 52px; text-align: center; border: none; border-left: 1px solid rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.1); font-size: 14px; outline: none; background: transparent; color: var(--text); font-family: inherit; }
+
+/* ── Select ── */
+.select { position: relative; width: 200px; }
+.select-trigger {
+  display: flex; align-items: center; justify-content: space-between; height: 40px; padding: 0 14px;
+  border-radius: 11px; cursor: pointer; font-size: 13px; color: var(--text);
+  box-shadow: var(--shadow-9); border: 2px solid var(--border-w);
+  background-color: var(--glass-fill); background-image: var(--shine);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: relative;
+}
+.select-trigger::before { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; background: var(--stroke); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; mix-blend-mode: multiply; opacity: 0.35; pointer-events: none; }
+.select-trigger::after { content: '▾'; font-size: 11px; opacity: 0.35; transition: transform 0.25s; }
+.select.open .select-trigger::after { transform: rotate(180deg); }
+.select-dropdown {
+  position: absolute; top: 48px; left: 0; right: 0; z-index: 20; border-radius: 12px; padding: 6px;
+  background-color: rgba(135,150,165,0.6); backdrop-filter: blur(24px);
+  border: 2px solid var(--border-w); box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+  opacity: 0; transform: scale(0.75); pointer-events: none; transform-origin: top center;
+  transition: opacity 0.2s, transform 0.45s cubic-bezier(0.15,1.75,0.3,1);
+}
+.select.open .select-dropdown { opacity: 1; transform: scale(1); pointer-events: auto; }
+.select-option {
+  padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; color: var(--text); position: relative; z-index: 1;
+  backdrop-filter: blur(0); transition: background 0.15s, backdrop-filter 0.3s, transform 0.15s;
+}
+.select-option:hover { background: rgba(255,255,255,0.12); backdrop-filter: blur(8px); transform: translateX(3px); }
+.select-option.active { background: rgba(255,255,255,0.3); color: var(--text); box-shadow: inset 2px 2px 3px rgba(0,0,0,0.06), inset -1px -1px 2px rgba(255,255,255,0.4); }
+
+/* ── Checkbox ── */
+.check { position: relative; width: 26px; height: 26px; cursor: pointer; display: inline-block; outline: none; }
+.check input { position: absolute; opacity: 0; pointer-events: none; }
+.check-box {
+  position: absolute; inset: 0; border-radius: 7px;
+  background-color: var(--glass-fill); background-image: var(--shine);
+  backdrop-filter: blur(8px); border: 2px solid var(--border-s);
+  box-shadow: var(--shadow-concave); transition: background 0.2s, border 0.2s, box-shadow 0.2s;
+}
+.check-box::before { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: var(--stroke); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; mix-blend-mode: multiply; opacity: 0.3; }
+.check input:checked ~ .check-box { background-color: rgba(80,175,240,0.75); border-color: rgba(255,255,255,0.8); box-shadow: var(--shadow-glass-ball); border: none; }
+.check-mark { position: absolute; top: 50%; left: 50%; width: 7px; height: 13px; margin-left: -4px; margin-top: -7px; border: solid #fff; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg) scale(0); transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); z-index: 1; pointer-events: none; filter: drop-shadow(0 0 2px rgba(255,255,255,0.5)); }
+.check input:checked ~ .check-mark { transform: rotate(45deg) scale(1); }
+
+/* ── Radio ── */
+.radio { position: relative; width: 20px; height: 20px; cursor: pointer; display: inline-block; }
+.radio input { position: absolute; opacity: 0; pointer-events: none; }
+.radio-dot { position: absolute; inset: 0; border-radius: 50%; background-color: var(--glass-fill); border: 2px solid var(--border-s); box-shadow: var(--shadow-concave); }
+.radio-dot::after { content: ''; position: absolute; inset: 4px; border-radius: 50%; background: var(--primary); transform: scale(0); transition: transform 0.15s ease; }
+.radio input:checked ~ .radio-dot::after { transform: scale(1); }
+.radio input:checked ~ .radio-dot { border-color: rgba(255,255,255,0.7); }
+
+/* ── Switch ── */
+.switch { position: relative; width: 43px; height: 24px; border-radius: 12px; cursor: pointer; display: inline-block; }
+.switch input { position: absolute; opacity: 0; pointer-events: none; }
+.switch-track {
+  position: absolute; inset: 0; border-radius: 12px;
+  background-color: rgba(0,0,0,0.25); backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.3); box-shadow: var(--shadow-concave);
+  transition: background 0.2s;
+}
+.switch input:checked ~ .switch-track { background-color: var(--primary); }
+.switch-knob {
+  position: absolute; top: 1px; left: 1px; width: 22px; height: 22px; border-radius: 50%;
+  transition: left 0.25s ease, transform 0.3s ease;
+}
+.switch input:checked ~ .switch-knob { left: 20px; }
+.switch:hover .switch-knob { transform: scale(1.12); }
+.switch:active .switch-knob { transform: scale(0.92); }
+
+/* ── Slider ── */
+.slider { position: relative; width: 200px; height: 22px; cursor: pointer; }
+.slider-track {
+  position: absolute; top: 50%; left: 0; right: 0; height: 6px; margin-top: -3px; border-radius: 3px;
+  background-color: rgba(135,150,165,0.35); border: 2px solid rgba(255,255,255,0.45);
+  box-shadow: inset 2px 2px 3px rgba(0,0,0,0.12), inset -1px -1px 2px rgba(255,255,255,0.35);
+  backdrop-filter: blur(6px);
+}
+.slider-fill {
+  position: absolute; top: 50%; left: 0; height: 6px; margin-top: -3px; border-radius: 3px;
+  background-color: rgba(140,200,230,0.3);
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.1) 30%, transparent 60%, rgba(255,255,255,0.05) 100%), var(--caustic);
+  background-size: 100% 100%, 200% 100%; background-blend-mode: normal, soft-light;
+  animation: liquid-flow 4s ease-in-out infinite;
+}
+.slider-thumb {
+  position: absolute; top: 0; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%;
+  cursor: grab; z-index: 1; transition: left 0.05s, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.slider-thumb:hover { transform: scale(1.15); box-shadow: 2px 3px 10px rgba(0,0,0,0.3), var(--shadow-glass-ball); }
+
+/* ── Rate ── */
+.rate { display: flex; gap: 3px; cursor: pointer; }
+.rate-star {
+  font-size: 22px; cursor: pointer; transition: all 0.2s ease;
+  color: rgba(255,255,255,0.25); background: none; border: none; padding: 2px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2), 3px 3px 3px rgba(0,0,0,0.12),
+    2px 2px 1.5px rgba(178,178,178,0.3), -1px -1px 0 rgba(255,255,255,0.4);
+  filter: drop-shadow(0 0 2px rgba(255,255,255,0.15));
+}
+.rate-star:hover { color: #E8A800; transform: scale(1.15); }
+.rate-star.active {
+  color: #F5A623;
+  text-shadow: 1px 1px 4px rgba(180,120,20,0.3), 3px 3px 4px rgba(0,0,0,0.18),
+    2px 2px 2px rgba(255,220,100,0.4), -1px -1px 0 rgba(255,255,200,0.5);
+  filter: drop-shadow(0 0 4px rgba(255,200,50,0.35));
+}
+.rate-star.active:hover { color: #FFB800; }
+
+/* ── Upload ── */
+.upload-area {
+  border: 2px dashed rgba(255,255,255,0.3); border-radius: 14px; padding: 28px;
+  text-align: center; color: rgba(255,255,255,0.35); cursor: pointer;
+  background: rgba(255,255,255,0.02); backdrop-filter: blur(8px);
+  transition: border-color 0.2s, background 0.2s;
+}
+.upload-area:hover { border-color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.04); }
+
+/* ── Form ── */
+.form { display: flex; flex-direction: column; gap: 14px; }
+.form-item { display: flex; flex-direction: column; gap: 4px; }
+.form-label { font-size: 13px; font-weight: 500; color: var(--text); }
+.form-label .required { color: #ef4444; margin-left: 2px; }
+.form-help { font-size: 11px; color: rgba(255,255,255,0.3); }
+.form-error { font-size: 11px; color: #ef4444; }
+
+/* ── AutoComplete ── */
+.autocomplete { position: relative; }
+.autocomplete-panel {
+  position: absolute; top: 100%; left: 0; right: 0; z-index: 20; margin-top: 4px;
+  border-radius: 10px; padding: 4px; display: none;
+  background: rgba(135,150,165,0.65); backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+.autocomplete:focus-within .autocomplete-panel { display: block; }
+.autocomplete-item { padding: 7px 12px; border-radius: 7px; font-size: 12px; color: var(--text); cursor: pointer; }
+.autocomplete-item:hover { background: rgba(255,255,255,0.1); }
+
+/* ══════════ 4. DATA DISPLAY ══════════ */
+
+/* ── Avatar ── */
+.avatar { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; position: relative; }
+.avatar-sm { width: 32px; height: 32px; font-size: 13px; }
+.avatar-md { width: 48px; height: 48px; font-size: 18px; }
+.avatar-lg { width: 64px; height: 64px; font-size: 22px; }
+.avatar-square { border-radius: 14px; }
+.avatar-online::after { content: ''; position: absolute; bottom: 1px; right: 1px; width: 9px; height: 9px; border-radius: 50%; background: #22c55e; border: 2px solid rgba(255,255,255,0.5); }
+
+/* ── Badge ── */
+.badge { position: relative; display: inline-flex; }
+.badge-dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; display: inline-block; }
+.badge-count {
+  position: absolute; top: -5px; right: -8px; min-width: 17px; height: 17px; border-radius: 8px;
+  padding: 0 5px; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center;
+  background: #ef4444; color: #fff;
+}
+
+/* ── Card ── */
+.card {
+  border-radius: 16px; padding: 20px; width: 300px; box-shadow: var(--shadow-9); position: relative;
+}
+.card-header { padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid rgba(0,0,0,0.06); font-size: 14px; font-weight: 600; color: var(--text); position: relative; z-index: 1; }
+.card-body { font-size: 13px; color: var(--text-dim); line-height: 1.5; position: relative; z-index: 1; }
+.card-footer { padding-top: 10px; margin-top: 10px; border-top: 1px solid rgba(0,0,0,0.06); display: flex; gap: 8px; justify-content: flex-end; position: relative; z-index: 1; }
+
+/* ── List ── */
+.list { display: flex; flex-direction: column; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-9); }
+.list-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; color: var(--text); position: relative; z-index: 1; }
+.list-item:last-child { border-bottom: none; }
+.list-item:hover { background: rgba(255,255,255,0.04); }
+.list-item-meta { flex: 1; }
+.list-item-title { font-weight: 500; color: #fff; }
+.list-item-desc { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+
+/* ── Table ── */
+.table-wrap { border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-9); }
+.table { width: 100%; border-collapse: collapse; }
+.table th { font-size: 11px; font-weight: 600; color: rgba(26,26,46,0.5); padding: 9px 14px; text-align: left; text-transform: uppercase; letter-spacing: 0.3px; position: relative; z-index: 1; }
+.table td { font-size: 12px; color: var(--text); padding: 8px 14px; border-top: 1px solid rgba(255,255,255,0.05); position: relative; z-index: 1; }
+.table tr:hover td { background: rgba(255,255,255,0.03); }
+
+/* ── Tag ── */
+.tag { display: inline-flex; align-items: center; gap: 3px; padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: 500; }
+.tag-default { background: var(--glass-fill); border: 1px solid rgba(255,255,255,0.25); color: var(--text); backdrop-filter: blur(6px); }
+.tag-success { background: var(--success); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+.tag-danger { background: var(--danger); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+.tag-info { background: var(--info); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+.tag-warning { background: var(--warning); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+
+/* ── Tree ── */
+.tree { display: flex; flex-direction: column; gap: 1px; padding: 4px 0; }
+.tree-item { display: flex; align-items: center; gap: 6px; padding: 5px 8px; border-radius: 6px; font-size: 12px; color: var(--text); cursor: pointer; }
+.tree-item:hover { background: rgba(255,255,255,0.04); }
+.tree-item .toggle-icon { width: 16px; text-align: center; font-size: 10px; opacity: 0.4; transition: transform 0.2s; display: inline-block; }
+.tree-item.open > .toggle-icon { transform: rotate(90deg); }
+.tree-children { padding-left: 18px; display: none; }
+.tree-item.open + .tree-children { display: flex; flex-direction: column; gap: 1px; }
+
+/* ── Collapse ── */
+.collapse { border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-9); }
+.collapse-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text); position: relative; z-index: 1; }
+.collapse-icon { transition: transform 0.25s ease; font-size: 11px; opacity: 0.4; }
+.collapse.open .collapse-icon { transform: rotate(180deg); }
+.collapse-body { padding: 0 16px; max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; position: relative; z-index: 1; }
+.collapse.open .collapse-body { max-height: 200px; padding: 0 16px 12px; }
+
+/* ── Carousel ── */
+.carousel { position: relative; width: 280px; height: 140px; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-9); }
+.carousel-track { display: flex; height: 100%; transition: transform 0.4s ease; }
+.carousel-slide { min-width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--text); position: relative; z-index: 1; }
+.carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; width: 28px; height: 28px; border-radius: 50%; border: none; background: rgba(255,255,255,0.15); color: #fff; cursor: pointer; font-size: 14px; backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; }
+.carousel-btn:hover { background: rgba(255,255,255,0.25); }
+.carousel-prev { left: 8px; } .carousel-next { right: 8px; }
+
+/* ── Popover / Tooltip ── */
+.popover {
+  position: relative; padding: 12px 16px; border-radius: 12px; font-size: 13px; color: var(--text);
+  background-color: rgba(135,150,165,0.6); backdrop-filter: blur(24px);
+  border: 2px solid var(--border-w); box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+}
+.tooltip {
+  display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px;
+  background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2); color: #fff;
+}
+
+/* ── Timeline ── */
+.timeline { padding-left: 16px; }
+.timeline-item { position: relative; padding: 6px 0 6px 20px; font-size: 13px; color: var(--text); }
+.timeline-item::before { content: ''; position: absolute; left: -6px; top: 12px; width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); }
+.timeline-item:not(:last-child)::after { content: ''; position: absolute; left: -3px; top: 20px; width: 1px; height: calc(100% - 8px); background: rgba(255,255,255,0.06); }
+.timeline-item.active::before { background: var(--primary); box-shadow: 0 0 6px rgba(0,120,220,0.4); }
+.timeline-item.done::before { background: #22c55e; }
+
+/* ── Statistic ── */
+.stat { border-radius: 14px; padding: 20px 28px; text-align: center; box-shadow: var(--shadow-9); position: relative; }
+.stat-value { font-size: 30px; font-weight: 700; color: #fff; position: relative; z-index: 1; }
+.stat-label { font-size: 12px; color: var(--text-dim); margin-top: 2px; position: relative; z-index: 1; }
+.stat-trend { font-size: 11px; margin-top: 4px; position: relative; z-index: 1; }
+.stat-trend.up { color: #22c55e; } .stat-trend.down { color: #ef4444; }
+
+/* ── Segmented ── */
+.seg { position: relative; display: flex; align-items: center; padding: 5px; border-radius: 36px; overflow: hidden; box-shadow: var(--shadow-figma); }
+.seg-indicator { position: absolute; top: 5px; height: calc(100% - 10px); background: rgba(0,0,0,0.08); border-radius: 32px; backdrop-filter: blur(2px); transition: left 0.55s cubic-bezier(0.12,1.65,0.28,1), width 0.55s cubic-bezier(0.12,1.65,0.28,1); }
+.seg-item { flex: 1; padding: 8px 16px; text-align: center; font-size: 13px; cursor: pointer; color: var(--text-dim); position: relative; z-index: 1; border-radius: 32px; transition: color 0.2s; }
+.seg-item:hover { color: #fff; }
+.seg-item.active { color: #fff; font-weight: 500; }
+
+/* ── Empty ── */
+.empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 40px; text-align: center; }
+.empty-icon { font-size: 40px; opacity: 0.4; }
+.empty-text { font-size: 14px; color: var(--text-dim); }
+.empty-desc { font-size: 12px; color: rgba(255,255,255,0.25); max-width: 240px; }
+
+/* ── Comment ── */
+.comment { display: flex; gap: 12px; padding: 12px; border-radius: 12px; box-shadow: var(--shadow-9); }
+.comment-body { flex: 1; position: relative; z-index: 1; }
+.comment-author { font-size: 13px; font-weight: 600; color: #fff; }
+.comment-time { font-size: 10px; color: rgba(255,255,255,0.25); margin-left: 8px; }
+.comment-text { font-size: 12px; color: var(--text-dim); margin-top: 4px; line-height: 1.4; }
+
+/* ── Image ── */
+.img-placeholder { width: 120px; height: 80px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: rgba(255,255,255,0.25); box-shadow: var(--shadow-concave); }
+
+/* ── QRCode / Calendar ── */
+.qr-placeholder { width: 80px; height: 80px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: rgba(255,255,255,0.2); box-shadow: var(--shadow-9); }
+.calendar-placeholder { width: 200px; border-radius: 14px; padding: 14px; box-shadow: var(--shadow-9); text-align: center; font-size: 12px; color: var(--text-dim); position: relative; z-index: 1; }
+
+/* ══════════ 5. FEEDBACK ══════════ */
+
+/* ── Modal ── */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(4px); }
+.modal { border-radius: 20px; padding: 28px; width: 400px; position: relative; box-shadow: 0 24px 64px rgba(0,0,0,0.4); background-color: rgba(135,150,165,0.6); backdrop-filter: blur(24px); border: 2px solid var(--border-w); }
+.modal::before { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 2px; background: var(--stroke); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; mix-blend-mode: multiply; opacity: 0.4; pointer-events: none; }
+.modal h3 { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 8px; position: relative; z-index: 1; }
+.modal p { font-size: 13px; color: var(--text-dim); line-height: 1.5; margin-bottom: 20px; position: relative; z-index: 1; }
+.modal-footer { display: flex; gap: 10px; justify-content: flex-end; position: relative; z-index: 1; }
+
+/* ── Toast / Message ── */
+.toast { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 11px; font-size: 12px; width: 260px; animation: alertIn 0.3s ease; }
+.toast-success { border-color: rgba(34,197,94,0.5); }
+.toast-error { border-color: rgba(239,68,68,0.5); }
+.toast-warning { border-color: rgba(249,115,22,0.5); }
+.toast-info { border-color: rgba(6,182,212,0.5); }
+
+/* ── Notification ── */
+.notification { display: flex; gap: 10px; padding: 12px 14px; border-radius: 13px; width: 300px; box-shadow: var(--shadow-9); position: relative; }
+.notification-body { position: relative; z-index: 1; }
+.notification-body h5 { font-size: 13px; font-weight: 600; color: var(--text); }
+.notification-body p { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+.notification-body .time { font-size: 10px; color: rgba(255,255,255,0.2); margin-top: 4px; }
+
+/* ── Progress ── */
+.progress { position: relative; width: 220px; height: 10px; border-radius: 5px; overflow: hidden; background-color: rgba(135,150,165,0.35); border: 2px solid rgba(255,255,255,0.5); box-shadow: inset 2px 2px 2px rgba(0,0,0,0.1), inset -1px -1px 1px rgba(255,255,255,0.4), inset -2px -2px 4px rgba(125,143,158,0.3); }
+.progress-bar {
+  height: 100%; border-radius: 5px;
+  background-color: rgba(140,200,230,0.3);
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.1) 30%, transparent 60%, rgba(255,255,255,0.05) 100%), var(--caustic);
+  background-size: 100% 100%, 180% 100%; background-blend-mode: normal, soft-light;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4); animation: liquid-flow 5s ease-in-out infinite;
+  transition: width 0.4s ease;
+}
+
+/* ── Spin / Loading ── */
+.spin { width: 28px; height: 28px; border: 2.5px solid rgba(255,255,255,0.12); border-top-color: rgba(255,255,255,0.7); border-radius: 50%; animation: spin 0.7s linear infinite; }
+.dots { display: flex; gap: 4px; }
+.dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.45); animation: dotBounce 1.4s ease-in-out infinite both; }
+.dots span:nth-child(1) { animation-delay: -0.32s; } .dots span:nth-child(2) { animation-delay: -0.16s; }
+
+/* ── Skeleton ── */
+.skeleton { height: 12px; border-radius: 6px; background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 37%, rgba(255,255,255,0.03) 63%); background-size: 400% 100%; animation: shimmer 1.4s ease-in-out infinite; }
+
+/* ── Alert ── */
+.alert { display: flex; align-items: flex-start; gap: 10px; padding: 12px 16px; border-radius: 12px; font-size: 13px; animation: alertIn 0.3s ease; box-shadow: var(--shadow-9); }
+.alert-icon { font-size: 16px; flex-shrink: 0; }
+.alert-content { flex: 1; position: relative; z-index: 1; }
+.alert-title { font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.alert-desc { font-size: 12px; color: var(--text-dim); }
+.alert-success { border-color: rgba(34,197,94,0.5); }
+.alert-error { border-color: rgba(239,68,68,0.5); }
+.alert-warning { border-color: rgba(249,115,22,0.5); }
+.alert-info { border-color: rgba(6,182,212,0.5); }
+
+/* ── Drawer ── */
+.drawer { border-radius: 16px; padding: 22px; width: 260px; box-shadow: var(--shadow-9); }
+.drawer h4 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; position: relative; z-index: 1; }
+.drawer p { font-size: 12px; color: var(--text-dim); position: relative; z-index: 1; }
+
+/* ── Result ── */
+.result { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 36px; text-align: center; box-shadow: var(--shadow-9); border-radius: 16px; }
+.result-icon { font-size: 44px; }
+.result h4 { font-size: 16px; font-weight: 600; color: var(--text); position: relative; z-index: 1; }
+.result p { font-size: 13px; color: var(--text-dim); position: relative; z-index: 1; max-width: 260px; }
+
+/* ══════════ 6. OTHER ══════════ */
+
+/* ── FloatButton ── */
+.float-btn { position: relative; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; animation: floatUp 3s ease-in-out infinite; box-shadow: var(--shadow-9); }
+
+/* ── Watermark ── */
+.watermark { position: relative; }
+.watermark::after { content: 'CONFIDENTIAL'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 800; color: rgba(255,255,255,0.03); letter-spacing: 8px; pointer-events: none; transform: rotate(-20deg); }
+
+/* ── Tour / ConfigProvider placeholder ── */
+.tour-highlight { position: relative; }
+.tour-highlight::after { content: ''; position: absolute; inset: -4px; border-radius: inherit; border: 2px solid rgba(100,180,240,0.6); animation: alertIn 0.3s ease; pointer-events: none; }
+
+/* ── Web-View / Map / Video / Canvas placeholder ── */
+.media-placeholder { border-radius: 14px; padding: 32px; text-align: center; box-shadow: var(--shadow-9); color: var(--text-dim); font-size: 12px; }
+.media-placeholder .media-icon { font-size: 36px; margin-bottom: 8px; opacity: 0.4; }
+
+/* ══════════ RESPONSIVE ══════════ */
+@media (max-width: 768px) {
+  .demo-row { gap: 8px; }
+  .layout { flex-direction: column; }
+  .layout-sider { width: 100%; flex-direction: row; overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+<h1>Neo-Glass UI Kit</h1>
+<p class="subtitle">Complete Component Library · Group 5 Glass Style · 60+ Components</p>
+<p style="text-align:center;margin-bottom:32px;font-size:11px;color:rgba(255,255,255,0.25);">🧱 General & Layout · 🧭 Navigation · ✍️ Data Entry · 📊 Data Display · 💬 Feedback · ✨ Other</p>
+
+<!-- ═══════════════ 1. GENERAL & LAYOUT ═══════════════ -->
+<div class="cat">
+<div class="cat-title">🧱 1. General & Layout / 通用与布局</div>
+<div class="cat-desc">Page structure fundamentals — buttons, icons, typography, dividers, space, grid, and layout framework.</div>
+
+<div class="cat-section"><div class="cat-label">Button / 按钮</div>
+<div class="demo-row">
+<div class="comp-wrap"><button class="btn btn-primary">Primary</button><span class="comp-name">Primary</span></div>
+<div class="comp-wrap"><button class="btn">Default</button><span class="comp-name">Default</span></div>
+<div class="comp-wrap"><button class="btn btn-text">Text Link</button><span class="comp-name">Text</span></div>
+<div class="comp-wrap"><button class="btn btn-danger">Danger</button><span class="comp-name">Danger</span></div>
+<div class="comp-wrap"><button class="btn btn-success">Success</button><span class="comp-name">Success</span></div>
+<div class="comp-wrap"><button class="btn" disabled>Disabled</button><span class="comp-name">Disabled</span></div>
+</div>
+<div class="demo-row">
+<div class="comp-wrap"><button class="btn btn-primary btn-sm">Small</button><span class="comp-name">Small</span></div>
+<div class="comp-wrap"><button class="btn btn-primary">Default</button><span class="comp-name">Default</span></div>
+<div class="comp-wrap"><button class="btn btn-primary btn-lg">Large</button><span class="comp-name">Large</span></div>
+<div class="comp-wrap"><button class="btn btn-icon glass-base">★</button><span class="comp-name">Icon</span></div>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Icon / 图标</div>
+<div class="demo-row">
+<div class="comp-wrap"><div class="glass-base icon">🔍</div><span class="comp-name">Search</span></div>
+<div class="comp-wrap"><div class="glass-base icon" style="box-shadow:var(--shadow-concave);">⚙</div><span class="comp-name">Concave</span></div>
+<div class="comp-wrap"><div class="glass-base icon icon-circle">★</div><span class="comp-name">Circle</span></div>
+<div class="comp-wrap"><div class="glass-base icon icon-circle" style="box-shadow:var(--shadow-concave);">♥</div><span class="comp-name">Concave</span></div>
+<div class="comp-wrap"><div class="glass-base icon" style="background:rgba(124,58,237,0.4);">🚀</div><span class="comp-name">Colored</span></div>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Typography / 排版</div>
+<div class="demo-col" style="gap:6px;padding:12px;background:rgba(0,0,0,0.1);border-radius:12px;">
+<h1 class="typo-h1">Heading 1</h1>
+<h2 class="typo-h2">Heading 2</h2>
+<h3 class="typo-h3">Heading 3</h3>
+<p class="typo-body">Body text with <a class="typo-link" href="#">link</a>, <mark class="typo-mark">highlight</mark>, <kbd class="typo-kbd">⌘K</kbd>, and <code class="typo-code">code</code>.</p>
+<p class="typo-caption">Caption · secondary information</p>
+<blockquote class="typo-quote">Design is not just what it looks like — it is how it works.</blockquote>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Divider / 分割线</div>
+<div class="demo-col" style="gap:10px;width:280px;">
+<div class="divider"></div>
+<div class="divider-text">OR</div>
+<div class="demo-row"><span>Left</span><div class="divider-v"></div><span>Right</span></div>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Grid / 栅格</div>
+<div class="demo-col" style="gap:10px;">
+<div class="grid grid-4"><div class="glass-base grid-item">1</div><div class="glass-base grid-item">2</div><div class="glass-base grid-item">3</div><div class="glass-base grid-item">4</div></div>
+<div class="grid grid-3"><div class="glass-base grid-item">1</div><div class="glass-base grid-item">2</div><div class="glass-base grid-item">3</div></div>
+<div class="grid grid-2"><div class="glass-base grid-item">1</div><div class="glass-base grid-item">2</div></div>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Layout / 布局 (Header + Sider + Content + Footer)</div>
+<div class="glass-base layout" style="position:relative;">
+<div class="layout-sider">
+<div class="layout-sider-item active">📊 Dashboard</div>
+<div class="layout-sider-item">📁 Projects</div>
+<div class="layout-sider-item">👥 Team</div>
+<div class="layout-sider-item">⚙ Settings</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;">
+<div class="layout-header"><span style="font-weight:600;color:var(--text);">Header</span><div class="glass-ball avatar-sm">U</div></div>
+<div class="layout-content"><h4 style="color:var(--text);">Content Area</h4><div class="grid grid-2"><div class="glass-base grid-item">Widget A</div><div class="glass-base grid-item">Widget B</div></div></div>
+<div class="layout-footer">Footer · © 2024 Neo-Glass UI</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ═══════════════ 2. NAVIGATION ═══════════════ -->
+<div class="cat">
+<div class="cat-title">🧭 2. Navigation / 导航</div>
+<div class="cat-desc">Components that guide users between pages and sections.</div>
+
+<div class="cat-section"><div class="cat-label">Menu / 导航菜单</div>
+<div class="demo-row" style="align-items:flex-start;">
+<div class="glass-base menu"><div class="menu-item active">📊 Dashboard</div><div class="menu-item">📈 Analytics</div><div class="menu-item">📁 Projects</div><div class="menu-item">👥 Team</div><div class="menu-item">⚙ Settings</div></div>
+<div class="demo-col" style="gap:14px;">
+<div class="comp-wrap"><div class="glass-base breadcrumb"><span>🏠</span><span class="sep">/</span><span>Projects</span><span class="sep">/</span><span class="active">Current</span></div><span class="comp-name">Breadcrumb</span></div>
+<div class="comp-wrap"><div class="dropdown"><button class="btn btn-sm">Dropdown ▾</button><div class="dropdown-menu"><div class="dropdown-item">Action 1</div><div class="dropdown-item">Action 2</div><div class="dropdown-item">Action 3</div></div></div><span class="comp-name">Dropdown</span></div>
+</div>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Steps / 步骤条</div>
+<div class="demo-row"><div class="steps"><div class="step done"><div class="step-num">✓</div><span class="step-label">Design</span></div><div class="step active"><div class="step-num">2</div><span class="step-label">Develop</span></div><div class="step"><div class="step-num">3</div><span class="step-label">Deploy</span></div></div></div></div>
+
+<div class="cat-section"><div class="cat-label">Tabs / 标签页</div>
+<div class="demo-row"><div class="glass-base tabs"><div class="tab active">Overview</div><div class="tab">Details</div><div class="tab">Settings</div></div></div></div>
+
+<div class="cat-section"><div class="cat-label">Pagination / 分页</div>
+<div class="demo-row"><div class="pagination" id="pagDemo"><div class="page-item disabled">‹</div><div class="page-item active">1</div><div class="page-item">2</div><div class="page-item">3</div><div class="page-item">…</div><div class="page-item">8</div><div class="page-item">›</div></div></div></div>
+
+<div class="cat-section"><div class="cat-label">Anchor / 锚点</div>
+<div class="demo-row"><div class="anchor"><div class="anchor-item active">Section 1</div><div class="anchor-item">Section 2</div><div class="anchor-item">Section 3</div></div></div></div>
+</div>
+
+<!-- ═══════════════ 3. DATA ENTRY ═══════════════ -->
+<div class="cat">
+<div class="cat-title">✍️ 3. Data Entry / 数据录入</div>
+<div class="cat-desc">Components for collecting and inputting information.</div>
+
+<div class="cat-section"><div class="cat-label">Input / 输入框</div>
+<div class="demo-row">
+<div class="comp-wrap"><div class="glass-base input-wrap"><input type="text" placeholder="Enter text..."></div><span class="comp-name">Default</span></div>
+<div class="comp-wrap"><div class="glass-base input-wrap"><span class="prefix">🔍</span><input type="text" placeholder="Search..."></div><span class="comp-name">With Icon</span></div>
+<div class="comp-wrap"><div class="glass-base input-wrap input-error"><input type="text" value="Error"></div><span class="comp-name">Error</span></div>
+<div class="comp-wrap"><div class="glass-base input-wrap input-ok"><input type="text" value="Success"></div><span class="comp-name">Success</span></div>
+<div class="comp-wrap"><div class="glass-base input-wrap" style="opacity:0.5;"><input type="text" value="Disabled" disabled></div><span class="comp-name">Disabled</span></div>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Textarea / 多行文本域</div>
+<div class="demo-row"><textarea class="glass-base textarea" placeholder="Write something..."></textarea></div></div>
+
+<div class="cat-section"><div class="cat-label">InputNumber / 数字输入框</div>
+<div class="demo-row"><div class="glass-base input-number"><button onclick="let i=this.nextElementSibling;i.value=Math.max(0,+i.value-1)">−</button><input type="text" value="5" readonly><button onclick="let i=this.previousElementSibling;i.value=+i.value+1">+</button></div></div></div>
+
+<div class="cat-section"><div class="cat-label">Select / 选择器</div>
+<div class="demo-row"><div class="select" id="selectUI"><div class="select-trigger">Select option...</div><div class="select-dropdown"><div class="select-option active">Option A</div><div class="select-option">Option B</div><div class="select-option">Option C</div></div></div></div></div>
+
+<div class="cat-section"><div class="cat-label">Checkbox · Radio · Switch / 复选 · 单选 · 开关</div>
+<div class="demo-row">
+<div class="comp-wrap"><label class="check"><input type="checkbox"><span class="check-box"></span><span class="check-mark"></span></label><span class="comp-name">Unchecked</span></div>
+<div class="comp-wrap"><label class="check"><input type="checkbox" checked><span class="check-box"></span><span class="check-mark"></span></label><span class="comp-name">Checked</span></div>
+<span style="width:16px;"></span>
+<div class="comp-wrap"><label class="radio"><input type="radio" name="rd"><span class="radio-dot"></span></label><span class="comp-name">Unselected</span></div>
+<div class="comp-wrap"><label class="radio"><input type="radio" name="rd" checked><span class="radio-dot"></span></label><span class="comp-name">Selected</span></div>
+<span style="width:16px;"></span>
+<div class="comp-wrap"><label class="switch"><input type="checkbox"><span class="switch-track"></span><span class="switch-knob glass-ball"></span></label><span class="comp-name">OFF</span></div>
+<div class="comp-wrap"><label class="switch"><input type="checkbox" checked><span class="switch-track"></span><span class="switch-knob glass-ball"></span></label><span class="comp-name">ON</span></div>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Slider · Rate / 滑块 · 评分</div>
+<div class="demo-row">
+<div class="slider" id="sliderUI"><div class="slider-track"></div><div class="slider-fill" style="width:55%;"></div><div class="slider-thumb glass-ball" style="left:55%;"></div></div>
+<div class="rate" id="rateUI"><span class="rate-star active" data-v="1">★</span><span class="rate-star active" data-v="2">★</span><span class="rate-star active" data-v="3">★</span><span class="rate-star active" data-v="4">★</span><span class="rate-star" data-v="5">★</span></div>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Upload / 上传</div>
+<div class="demo-row"><div class="upload-area">📁 Click or drag files to upload</div></div></div>
+
+<div class="cat-section"><div class="cat-label">Form / 表单</div>
+<div class="demo-row"><div class="form"><div class="form-item"><div class="form-label">Username <span class="required">*</span></div><div class="glass-base input-wrap"><input type="text" placeholder="Enter username"></div></div><div class="form-item"><div class="form-label">Password <span class="required">*</span></div><div class="glass-base input-wrap"><input type="password" placeholder="Enter password"></div><div class="form-help">Must be at least 8 characters</div></div></div></div></div>
+
+<div class="cat-section"><div class="cat-label">AutoComplete / 自动完成</div>
+<div class="demo-row"><div class="autocomplete"><div class="glass-base input-wrap"><input type="text" placeholder="Type to search..."></div><div class="autocomplete-panel"><div class="autocomplete-item">Apple</div><div class="autocomplete-item">Application</div><div class="autocomplete-item">Apply</div></div></div></div></div>
+</div>
+
+<!-- ═══════════════ 4. DATA DISPLAY ═══════════════ -->
+<div class="cat">
+<div class="cat-title">📊 4. Data Display / 数据展示</div>
+<div class="cat-desc">Components for presenting structured data efficiently.</div>
+
+<div class="cat-section"><div class="cat-label">Avatar / 头像</div>
+<div class="demo-row">
+<div class="comp-wrap"><div class="glass-ball avatar avatar-sm avatar-online">A</div><span class="comp-name">Small+Online</span></div>
+<div class="comp-wrap"><div class="glass-ball avatar avatar-md">JD</div><span class="comp-name">Medium</span></div>
+<div class="comp-wrap"><div class="glass-ball avatar avatar-lg">M</div><span class="comp-name">Large</span></div>
+<div class="comp-wrap"><div class="glass-ball avatar avatar-md avatar-square">□</div><span class="comp-name">Square</span></div>
+<div class="comp-wrap"><div class="badge"><div class="glass-ball avatar avatar-md">N</div><span class="badge-count">5</span></div><span class="comp-name">With Badge</span></div>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Badge · Tag / 徽标 · 标签</div>
+<div class="demo-row">
+<div class="comp-wrap"><span class="badge-dot"></span><span class="comp-name">Dot</span></div>
+<div class="comp-wrap"><span class="badge-count" style="position:static;">99+</span><span class="comp-name">Count</span></div>
+<span class="tag tag-default">Default</span>
+<span class="tag tag-success">Success</span>
+<span class="tag tag-danger">Error</span>
+<span class="tag tag-info">Info</span>
+<span class="tag tag-warning">Warning</span>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Card / 卡片</div>
+<div class="demo-row"><div class="glass-base card"><div class="card-header">Card Component</div><div class="card-body">Cards are the primary container for grouped content — they float above the background with glass transparency and neumorphic depth.</div><div class="card-footer"><button class="btn btn-sm btn-text">Cancel</button><button class="btn btn-sm btn-primary">Confirm</button></div></div></div></div>
+
+<div class="cat-section"><div class="cat-label">List / 列表</div>
+<div class="demo-row"><div class="glass-base list" style="width:280px;"><div class="list-item"><div class="glass-ball avatar avatar-sm">A</div><div class="list-item-meta"><div class="list-item-title">Alice Chen</div><div class="list-item-desc">Last message: "Sounds great!"</div></div></div><div class="list-item"><div class="glass-ball avatar avatar-sm">B</div><div class="list-item-meta"><div class="list-item-title">Bob Wang</div><div class="list-item-desc">Last message: "See you tomorrow"</div></div></div></div></div></div>
+
+<div class="cat-section"><div class="cat-label">Table / 表格</div>
+<div class="demo-row" style="width:100%;"><div class="glass-base table-wrap" style="overflow-x:auto;"><table class="table"><thead><tr><th>Name</th><th>Status</th><th>Role</th><th>Date</th></tr></thead><tbody><tr><td>Alice</td><td><span class="tag tag-success">Active</span></td><td>Admin</td><td>2024-03-15</td></tr><tr><td>Bob</td><td><span class="tag tag-info">Pending</span></td><td>Editor</td><td>2024-03-10</td></tr><tr><td>Carol</td><td><span class="tag tag-warning">Idle</span></td><td>Viewer</td><td>2024-02-28</td></tr></tbody></table></div></div></div>
+
+<div class="cat-section"><div class="cat-label">Tree · Collapse / 树形 · 折叠面板</div>
+<div class="demo-row" style="align-items:flex-start;">
+<div class="glass-base" style="padding:8px;border-radius:12px;width:200px;box-shadow:var(--shadow-9);"><div class="tree"><div class="tree-item open"><span class="toggle-icon">▶</span>📁 src<div class="tree-children"><div class="tree-item"><span class="toggle-icon">▶</span>📄 index.ts</div><div class="tree-item"><span class="toggle-icon">▶</span>📁 components</div></div></div><div class="tree-item"><span class="toggle-icon">▶</span>📄 package.json</div></div></div>
+<div class="glass-base collapse" style="width:240px;"><div class="collapse-header" onclick="this.parentElement.classList.toggle('open')">Project Details <span class="collapse-icon">▼</span></div><div class="collapse-body"><div class="card-body">Using Neo-Glass design system with frosted glass UI components and neumorphic shadow depth.</div></div></div>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Carousel / 轮播</div>
+<div class="demo-row"><div class="glass-base carousel" id="carouselDemo"><div class="carousel-track"><div class="carousel-slide" style="background:rgba(124,58,237,0.2);">Slide 1</div><div class="carousel-slide" style="background:rgba(0,120,220,0.2);">Slide 2</div><div class="carousel-slide" style="background:rgba(34,197,94,0.2);">Slide 3</div></div><button class="carousel-btn carousel-prev" onclick="carouselMove(-1)">‹</button><button class="carousel-btn carousel-next" onclick="carouselMove(1)">›</button></div></div></div>
+
+<div class="cat-section"><div class="cat-label">Popover · Tooltip · Statistic / 气泡 · 提示 · 统计</div>
+<div class="demo-row">
+<div class="comp-wrap"><div class="popover"><strong>Popover</strong><p style="font-size:11px;color:var(--text-dim);margin-top:4px;">Floating card with enhanced blur depth.</p></div><span class="comp-name">Popover</span></div>
+<div class="comp-wrap"><span class="tooltip">Tooltip text</span><span class="comp-name">Tooltip</span></div>
+<div class="comp-wrap"><div class="glass-base stat"><div class="stat-value">12,846</div><div class="stat-label">Total Users</div><div class="stat-trend up">↑ 12.5%</div></div><span class="comp-name">Statistic</span></div>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Timeline / 时间轴</div>
+<div class="demo-row"><div class="timeline"><div class="timeline-item done">Project initialized</div><div class="timeline-item active">Design review in progress</div><div class="timeline-item">Final deployment</div></div></div></div>
+
+<div class="cat-section"><div class="cat-label">Segmented / 分段控制器</div>
+<div class="demo-row">
+<div class="glass-base seg" style="width:240px;height:44px;" id="segUI"><div class="seg-indicator" style="width:50%;left:5px;"></div><div class="seg-item active" data-idx="0">Option A</div><div class="seg-item" data-idx="1">Option B</div></div>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Image · QRCode · Calendar / 图片 · 二维码 · 日历</div>
+<div class="demo-row">
+<div class="comp-wrap"><div class="glass-base img-placeholder">🖼 Image</div><span class="comp-name">Image</span></div>
+<div class="comp-wrap"><div class="glass-base qr-placeholder">📱</div><span class="comp-name">QR Code</span></div>
+<div class="comp-wrap"><div class="glass-base calendar-placeholder">📅 June 2024</div><span class="comp-name">Calendar</span></div>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Empty · Comment / 空状态 · 评论</div>
+<div class="demo-row">
+<div class="glass-base empty" style="border-radius:14px;"><div class="empty-icon">📭</div><div class="empty-text">No Data</div><div class="empty-desc">There are no items to display yet. Create your first entry to get started.</div><button class="btn btn-sm btn-primary">Create New</button></div>
+<div class="glass-base comment"><div class="glass-ball avatar avatar-sm">U</div><div class="comment-body"><div class="comment-author">User Name<span class="comment-time">2 hours ago</span></div><div class="comment-text">This is a great design system! The frosted glass effects are stunning.</div></div></div>
+</div></div>
+</div>
+
+<!-- ═══════════════ 5. FEEDBACK ═══════════════ -->
+<div class="cat">
+<div class="cat-title">💬 5. Feedback / 反馈</div>
+<div class="cat-desc">Components that provide operational feedback and system status information.</div>
+
+<div class="cat-section"><div class="cat-label">Modal / 模态框</div>
+<div class="demo-row"><div class="modal"><h3>Confirm Action</h3><p>Are you sure you want to proceed with this action? This cannot be undone.</p><div class="modal-footer"><button class="btn btn-sm btn-text">Cancel</button><button class="btn btn-sm btn-primary">Confirm</button></div></div></div></div>
+
+<div class="cat-section"><div class="cat-label">Toast / 全局提示</div>
+<div class="demo-row">
+<div class="comp-wrap"><div class="glass-base toast toast-success">✓ Operation completed successfully</div><span class="comp-name">Success</span></div>
+<div class="comp-wrap"><div class="glass-base toast toast-error">✗ An error occurred. Try again.</div><span class="comp-name">Error</span></div>
+</div>
+<div class="demo-row">
+<div class="comp-wrap"><div class="glass-base toast toast-warning">⚠ Please review your input</div><span class="comp-name">Warning</span></div>
+<div class="comp-wrap"><div class="glass-base toast toast-info">ℹ New version available</div><span class="comp-name">Info</span></div>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Notification / 通知提醒</div>
+<div class="demo-row"><div class="glass-base notification"><div class="glass-ball avatar avatar-sm" style="flex-shrink:0;">N</div><div class="notification-body"><h5>New message from Alice</h5><p>Hey, can you review the latest design mockups?</p><div class="time">2 minutes ago</div></div></div></div></div>
+
+<div class="cat-section"><div class="cat-label">Progress · Spin · Skeleton / 进度 · 加载 · 骨架屏</div>
+<div class="demo-row">
+<div class="comp-wrap"><div class="progress"><div class="progress-bar" style="width:68%;"></div></div><span class="comp-name">Progress</span></div>
+<div class="comp-wrap"><div class="spin"></div><span class="comp-name">Spin</span></div>
+<div class="comp-wrap"><div class="dots"><span></span><span></span><span></span></div><span class="comp-name">Dots</span></div>
+</div>
+<div class="demo-row" style="margin-top:8px;"><div class="demo-col" style="gap:6px;width:200px;"><div class="skeleton" style="width:100%;"></div><div class="skeleton" style="width:65%;"></div><div class="skeleton" style="width:40%;"></div></div></div></div>
+
+<div class="cat-section"><div class="cat-label">Alert / 警告提示</div>
+<div class="demo-col" style="gap:8px;">
+<div class="glass-base alert alert-success"><span class="alert-icon">✓</span><div class="alert-content"><div class="alert-title">Success</div><div class="alert-desc">Your changes have been saved.</div></div></div>
+<div class="glass-base alert alert-error"><span class="alert-icon">✗</span><div class="alert-content"><div class="alert-title">Error</div><div class="alert-desc">Unable to process your request.</div></div></div>
+<div class="glass-base alert alert-warning"><span class="alert-icon">⚠</span><div class="alert-content"><div class="alert-title">Warning</div><div class="alert-desc">This action may have side effects.</div></div></div>
+<div class="glass-base alert alert-info"><span class="alert-icon">ℹ</span><div class="alert-content"><div class="alert-title">Information</div><div class="alert-desc">A new update is available.</div></div></div>
+</div></div>
+
+<div class="cat-section"><div class="cat-label">Drawer · Result / 抽屉 · 结果</div>
+<div class="demo-row">
+<div class="glass-base drawer"><h4>Notifications</h4><p>You have 3 unread messages and 2 pending tasks for today.</p></div>
+<div class="glass-base result"><div class="result-icon">✅</div><h4>Task Completed</h4><p>All operations have been processed successfully.</p></div>
+</div></div>
+</div>
+
+<!-- ═══════════════ 6. OTHER ═══════════════ -->
+<div class="cat">
+<div class="cat-title">✨ 6. Other / 其他与高阶组件</div>
+<div class="cat-desc">Special-purpose and composite components.</div>
+
+<div class="cat-section"><div class="cat-label">FloatButton / 悬浮按钮</div>
+<div class="demo-row"><div class="glass-ball float-btn">＋</div></div></div>
+
+<div class="cat-section"><div class="cat-label">Watermark / 水印</div>
+<div class="demo-row"><div class="glass-base watermark" style="padding:24px;border-radius:14px;width:280px;text-align:center;position:relative;"><p class="typo-body" style="position:relative;z-index:1;">This content is watermarked. The watermark appears behind the content with low opacity.</p></div></div></div>
+
+<div class="cat-section"><div class="cat-label">Tour Highlight / 引导高亮</div>
+<div class="demo-row"><div class="glass-base tour-highlight" style="padding:12px 18px;border-radius:12px;">Highlighted element for guided tour</div></div></div>
+
+<div class="cat-section"><div class="cat-label">Media Placeholders / 媒体占位</div>
+<div class="demo-row">
+<div class="glass-base media-placeholder"><div class="media-icon">🌐</div>Web View Placeholder</div>
+<div class="glass-base media-placeholder"><div class="media-icon">🗺</div>Map Placeholder</div>
+<div class="glass-base media-placeholder"><div class="media-icon">🎬</div>Video Placeholder</div>
+<div class="glass-base media-placeholder"><div class="media-icon">🎨</div>Canvas Placeholder</div>
+</div></div>
+</div>
+
+</div><!-- .page -->
+
+<script>
+/* ══════════ INTERACTIONS ══════════ */
+
+// Dropdown toggle
+document.querySelectorAll('.dropdown').forEach(function(d) {
+  d.querySelector('button').addEventListener('click', function(e) { e.stopPropagation(); d.classList.toggle('open'); });
+});
+document.addEventListener('click', function() { document.querySelectorAll('.dropdown.open').forEach(function(d) { d.classList.remove('open'); }); });
+
+// Select
+document.querySelectorAll('.select').forEach(function(sel) {
+  var trig = sel.querySelector('.select-trigger');
+  trig.addEventListener('click', function(e) { e.stopPropagation(); sel.classList.toggle('open'); });
+  sel.querySelectorAll('.select-option').forEach(function(opt) {
+    opt.addEventListener('click', function() {
+      sel.querySelectorAll('.select-option').forEach(function(o) { o.classList.remove('active'); });
+      opt.classList.add('active'); trig.childNodes[0].textContent = opt.textContent; sel.classList.remove('open');
+    });
+  });
+});
+document.addEventListener('click', function() { document.querySelectorAll('.select.open').forEach(function(s) { s.classList.remove('open'); }); });
+
+// Pagination
+document.querySelectorAll('.pagination').forEach(function(pag) {
+  pag.querySelectorAll('.page-item:not(.disabled)').forEach(function(page) {
+    page.addEventListener('click', function() {
+      if (this.textContent === '‹' || this.textContent === '›' || this.textContent === '…') return;
+      pag.querySelectorAll('.page-item').forEach(function(p) { p.classList.remove('active'); });
+      page.classList.add('active');
+    });
+  });
+});
+
+// Tabs
+document.querySelectorAll('.tabs').forEach(function(tabs) {
+  tabs.querySelectorAll('.tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      tabs.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+    });
+  });
+});
+
+// Menu
+document.querySelectorAll('.menu').forEach(function(menu) {
+  menu.querySelectorAll('.menu-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+      menu.querySelectorAll('.menu-item').forEach(function(i) { i.classList.remove('active'); });
+      item.classList.add('active');
+    });
+  });
+});
+
+// Slider
+(function() {
+  var slider = document.getElementById('sliderUI');
+  if (!slider) return;
+  var thumb = slider.querySelector('.slider-thumb'), fill = slider.querySelector('.slider-fill'), dragging = false;
+  function update(cx) {
+    var r = slider.getBoundingClientRect(), pct = Math.max(0, Math.min(100, (cx - r.left) / r.width * 100));
+    thumb.style.left = pct + '%'; fill.style.width = pct + '%';
+  }
+  thumb.addEventListener('mousedown', function(e) { dragging = true; e.preventDefault(); });
+  document.addEventListener('mousemove', function(e) { if (dragging) update(e.clientX); });
+  document.addEventListener('mouseup', function() { dragging = false; });
+  slider.addEventListener('click', function(e) { if (!dragging) update(e.clientX); });
+})();
+
+// Rate
+document.querySelectorAll('.rate').forEach(function(rate) {
+  rate.querySelectorAll('.rate-star').forEach(function(star) {
+    star.addEventListener('click', function() {
+      var v = parseInt(this.dataset.v);
+      rate.querySelectorAll('.rate-star').forEach(function(s, k) { s.classList.toggle('active', k < v); });
+    });
+  });
+});
+
+// Segmented
+(function() {
+  var seg = document.getElementById('segUI');
+  if (!seg) return;
+  var ind = seg.querySelector('.seg-indicator'), items = seg.querySelectorAll('.seg-item');
+  ind.style.left = '5px'; ind.style.width = (100 / items.length).toFixed(1) + '%';
+  items.forEach(function(item) {
+    item.addEventListener('click', function() {
+      items.forEach(function(i) { i.classList.remove('active'); });
+      item.classList.add('active');
+      var idx = parseInt(this.dataset.idx), w = 100 / items.length;
+      ind.style.left = (5 + idx * (seg.clientWidth - 10) / items.length) + 'px';
+    });
+  });
+})();
+
+// Carousel
+var carouselIdx = 0, carouselTotal = 3;
+function carouselMove(dir) {
+  carouselIdx = (carouselIdx + dir + carouselTotal) % carouselTotal;
+  document.querySelector('.carousel-track').style.transform = 'translateX(-' + (carouselIdx * 100) + '%)';
+}
+
+// Tree toggle
+document.querySelectorAll('.tree-item').forEach(function(item) {
+  item.addEventListener('click', function(e) {
+    if (e.target.closest('.toggle-icon')) {
+      this.classList.toggle('open');
+    }
+  });
+});
+
+// Sider nav
+document.querySelectorAll('.layout-sider-item').forEach(function(item) {
+  item.addEventListener('click', function() {
+    this.parentElement.querySelectorAll('.layout-sider-item').forEach(function(i) { i.classList.remove('active'); });
+    this.classList.add('active');
+  });
+});
+
+// Switch toggle
+document.querySelectorAll('.switch').forEach(function(sw) {
+  sw.addEventListener('click', function(e) {
+    var cb = sw.querySelector('input'); cb.checked = !cb.checked;
+  });
+});
+
+console.log('Neo-Glass UI Kit — 60+ components ready ✓');
+</script>
+</body>
+</html>
